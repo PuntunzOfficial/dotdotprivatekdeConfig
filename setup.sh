@@ -39,16 +39,27 @@ cp "$BASHRC_SOURCE" "$HOME/.bashrc"
 # -----------------------------
 # Backup and replace fastfetch config
 # -----------------------------
-mkdir -p "$HOME/.fastfetch"
+CONFIG_DIR="$HOME/.config/fastfetch"
+mkdir -p "$CONFIG_DIR"
 
-if [ -f "$HOME/.fastfetch/config.jsonc" ]; then
+if [ -f "$CONFIG_DIR/config.jsonc" ]; then
     echo "[+] Backing up existing fastfetch config..."
-    mv -f "$HOME/.fastfetch/config.jsonc" \
-          "$HOME/.fastfetch/config.jsonc(copy)"
+    mv -f "$CONFIG_DIR/config.jsonc" "$CONFIG_DIR/config.jsonc(copy)"
 fi
 
 echo "[+] Installing new fastfetch config..."
-cp "$FASTFETCH_CONFIG" "$HOME/.fastfetch/config.jsonc"
+cp "$FASTFETCH_CONFIG" "$CONFIG_DIR/config.jsonc"
+
+# Replace $HOME placeholder with actual home directory
+sed -i "s|\$HOME|$HOME|g" "$CONFIG_DIR/config.jsonc"
+
+# -----------------------------
+# Add fastfetch to .bashrc if not already there
+# -----------------------------
+if ! grep -q "fastfetch" "$HOME/.bashrc"; then
+    echo "fastfetch" >> "$HOME/.bashrc"
+    echo "[+] Added fastfetch to .bashrc"
+fi
 
 echo ""
 echo "================================="
