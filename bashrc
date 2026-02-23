@@ -1,6 +1,6 @@
 # .bashrc
 #fastfetch
-fastfetch --logo ~/.Pictures/logo.png
+fastfetch --logo ~/.Documents/logo.png
 # Source global definitions
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
