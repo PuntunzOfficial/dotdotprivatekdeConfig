@@ -6,11 +6,10 @@ echo "==============================="
 echo " Terminal Setup Installer"
 echo "==============================="
 
-# Get script directory (so it works from anywhere)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 LOGO="$SCRIPT_DIR/logo.png"
-BASHRC="$SCRIPT_DIR/.bashrc"
+BASHRC_SOURCE="$SCRIPT_DIR/bashrc"
 FASTFETCH_CONFIG="$SCRIPT_DIR/config.jsonc"
 
 # -----------------------------
@@ -35,7 +34,7 @@ if [ -f "$HOME/.bashrc" ]; then
 fi
 
 echo "[+] Installing new .bashrc..."
-cp "$BASHRC" "$HOME/.bashrc"
+cp "$BASHRC_SOURCE" "$HOME/.bashrc"
 
 # -----------------------------
 # Backup and replace fastfetch config
@@ -44,7 +43,8 @@ mkdir -p "$HOME/.fastfetch"
 
 if [ -f "$HOME/.fastfetch/config.jsonc" ]; then
     echo "[+] Backing up existing fastfetch config..."
-    mv -f "$HOME/.fastfetch/config.jsonc" "$HOME/.fastfetch/config.jsonc(copy)"
+    mv -f "$HOME/.fastfetch/config.jsonc" \
+          "$HOME/.fastfetch/config.jsonc(copy)"
 fi
 
 echo "[+] Installing new fastfetch config..."
