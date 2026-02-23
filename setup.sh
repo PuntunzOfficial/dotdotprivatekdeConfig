@@ -2,89 +2,53 @@
 
 set -e
 
-echo "======================================="
-echo " Fedora KDE Auto Setup (Wayland)"
-echo "======================================="
+echo "==============================="
+echo " Terminal Setup Script"
+echo "==============================="
 
-# -----------------------------
-# Detect session type
-# -----------------------------
-if [ "$XDG_SESSION_TYPE" != "wayland" ]; then
-    echo "This script is made for Wayland."
-    echo "Current session: $XDG_SESSION_TYPE"
-    exit 1
-fi
-
-# -----------------------------
-# Get script directory
-# -----------------------------
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-VIDEO="$SCRIPT_DIR/wallpaper.mp4"
-FASTFETCH_CONFIG="$SCRIPT_DIR/fastfetch-config.jsonc"
+
+LOGO="$SCRIPT_DIR/logo.png"
+BASHRC="$SCRIPT_DIR/.bashrc"
+FASTFETCH_CONFIG="$SCRIPT_DIR/config.jsonc"
 
 # -----------------------------
-# Update + Install dependencies
+# Install / Update fastfetch
 # -----------------------------
-echo "[+] Installing dependencies..."
-sudo dnf install -y mpv mpvpaper fastfetch konsole
+echo "[+] Installing / Updating fastfetch..."
+sudo dnf install -y fastfetch
 
 # -----------------------------
-# Detect primary monitor
+# Copy logo.png to Documents
 # -----------------------------
-echo "[+] Detecting monitor..."
-MONITOR=$(kscreen-doctor -o | awk '/enabled connected/{print $3; exit}')
+echo "[+] Copying logo.png..."
+mkdir -p "$HOME/Documents"
+cp -f "$LOGO" "$HOME/Documents/logo.png"
 
-if [ -z "$MONITOR" ]; then
-    echo "Could not detect monitor."
-    exit 1
+# -----------------------------
+# Backup and replace .bashrc
+# -----------------------------
+if [ -f "$HOME/.bashrc" ]; then
+    echo "[+] Backing up existing .bashrc..."
+    mv "$HOME/.bashrc" "$HOME/.bashrc(copy)"
 fi
 
-echo "Detected monitor: $MONITOR"
+echo "[+] Installing new .bashrc..."
+cp "$BASHRC" "$HOME/.bashrc"
 
 # -----------------------------
-# Stop existing wallpaper
+# Backup and replace fastfetch config
 # -----------------------------
-pkill mpvpaper 2>/dev/null || true
+mkdir -p "$HOME/.fastfetch"
 
-# -----------------------------
-# Create systemd user service
-# -----------------------------
-echo "[+] Creating wallpaper service..."
-
-mkdir -p ~/.config/systemd/user
-
-cat > ~/.config/systemd/user/video-wallpaper.service <<EOF
-[Unit]
-Description=Video Wallpaper (Wayland)
-
-[Service]
-ExecStart=/usr/bin/mpvpaper -o "--loop --volume=40" $MONITOR $VIDEO
-Restart=on-failure
-
-[Install]
-WantedBy=default.target
-EOF
-
-systemctl --user daemon-reload
-systemctl --user enable video-wallpaper
-systemctl --user start video-wallpaper
-
-# -----------------------------
-# Setup fastfetch
-# -----------------------------
-echo "[+] Configuring fastfetch..."
-
-mkdir -p ~/.config/fastfetch
-cp "$FASTFETCH_CONFIG" ~/.config/fastfetch/config.jsonc
-
-# -----------------------------
-# Auto-run fastfetch in Konsole
-# -----------------------------
-if ! grep -q "fastfetch" ~/.bashrc; then
-    echo "fastfetch" >> ~/.bashrc
+if [ -f "$HOME/.fastfetch/config.jsonc" ]; then
+    echo "[+] Backing up existing fastfetch config..."
+    mv "$HOME/.fastfetch/config.jsonc" "$HOME/.fastfetch/config.jsonc(copy)"
 fi
+
+echo "[+] Installing new fastfetch config..."
+cp "$FASTFETCH_CONFIG" "$HOME/.fastfetch/config.jsonc"
 
 echo ""
-echo "======================================="
-echo " Setup Complete!"
-echo "======================================="
+echo "Done!"
+echo "Restart your terminal or run: source ~/.bashrc"
