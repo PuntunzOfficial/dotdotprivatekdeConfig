@@ -3,9 +3,10 @@
 set -e
 
 echo "==============================="
-echo " Terminal Setup Script"
+echo " Terminal Setup Installer"
 echo "==============================="
 
+# Get script directory (so it works from anywhere)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 LOGO="$SCRIPT_DIR/logo.png"
@@ -21,7 +22,7 @@ sudo dnf install -y fastfetch
 # -----------------------------
 # Copy logo.png to Documents
 # -----------------------------
-echo "[+] Copying logo.png..."
+echo "[+] Installing logo.png..."
 mkdir -p "$HOME/Documents"
 cp -f "$LOGO" "$HOME/Documents/logo.png"
 
@@ -30,7 +31,7 @@ cp -f "$LOGO" "$HOME/Documents/logo.png"
 # -----------------------------
 if [ -f "$HOME/.bashrc" ]; then
     echo "[+] Backing up existing .bashrc..."
-    mv "$HOME/.bashrc" "$HOME/.bashrc(copy)"
+    mv -f "$HOME/.bashrc" "$HOME/.bashrc(copy)"
 fi
 
 echo "[+] Installing new .bashrc..."
@@ -43,12 +44,15 @@ mkdir -p "$HOME/.fastfetch"
 
 if [ -f "$HOME/.fastfetch/config.jsonc" ]; then
     echo "[+] Backing up existing fastfetch config..."
-    mv "$HOME/.fastfetch/config.jsonc" "$HOME/.fastfetch/config.jsonc(copy)"
+    mv -f "$HOME/.fastfetch/config.jsonc" "$HOME/.fastfetch/config.jsonc(copy)"
 fi
 
 echo "[+] Installing new fastfetch config..."
 cp "$FASTFETCH_CONFIG" "$HOME/.fastfetch/config.jsonc"
 
 echo ""
-echo "Done!"
-echo "Restart your terminal or run: source ~/.bashrc"
+echo "================================="
+echo " Installation Complete!"
+echo "================================="
+echo "Restart your terminal or run:"
+echo "source ~/.bashrc"
