@@ -77,31 +77,22 @@ echo "Restart your terminal or run:"
 echo "source ~/.bashrc"
 
 # -----------------------------
-# NEW: Wait 3 seconds then open terminals
-# -----------------------------
-echo "[+] Waiting 3 seconds before opening terminals..."
-sleep 3
-
-# Terminal command varies depending on your terminal emulator
-# Adjust "konsole" to "gnome-terminal", "alacritty", or "kitty" if needed
-
-# 1. Open an empty terminal
-konsole --new-tab &
-
-# 2. Open a terminal running mpv with ASCII video
-mpv --no-config --vo=tct --really-quiet --loop "$SCRIPT_DIR/wallpaper.mp4"
-
-
-
-# -----------------------------
-# Set KDE Plasma wallpaper
+# Set KDE Plasma wallpaper via qdbus variant
 # -----------------------------
 WALLPAPER="$SCRIPT_DIR/wall.png"
-
 if [ -f "$WALLPAPER" ]; then
-    echo "[+] Setting KDE Plasma wallpaper..."
-    # Use qdbus to set the wallpaper for the first desktop
-    qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "
+    # Find which qdbus binary exists
+    if command -v qdbus-qt5 >/dev/null 2>&1; then
+        QDBUS_CMD="qdbus-qt5"
+    elif command -v qdbus6 >/dev/null 2>&1; then
+        QDBUS_CMD="qdbus6"
+    else
+        echo "[!] No qdbus CLI tool found (qdbus-qt5 or qdbus6 required)"
+        exit 1
+    fi
+
+    echo "[+] Setting KDE Plasma wallpaper using $QDBUS_CMD"
+    "$QDBUS_CMD" org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "
 var allDesktops = desktops();
 for (i=0; i<allDesktops.length; i++) {
     d = allDesktops[i];
@@ -112,3 +103,15 @@ for (i=0; i<allDesktops.length; i++) {
 else
     echo "[!] Wallpaper file not found: $WALLPAPER"
 fi
+
+
+
+# Terminal command varies depending on your terminal emulator
+# Adjust "konsole" to "gnome-terminal", "alacritty", or "kitty" if needed
+
+# 1. Open an empty terminal
+konsole --new-tab &
+
+# 2. Open a terminal running mpv with ASCII video
+mpv --no-config --vo=tct --really-quiet --loop "$SCRIPT_DIR/wallpaper.mp4"
+
