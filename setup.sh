@@ -24,6 +24,7 @@ FASTFETCH_CONFIG="$SCRIPT_DIR/config.jsonc"
 # -----------------------------
 echo "[+] Installing / Updating fastfetch..."
 sudo dnf install -y fastfetch
+sudo dnf install -y mpv
 
 # -----------------------------
 # Copy logo.png to Documents
