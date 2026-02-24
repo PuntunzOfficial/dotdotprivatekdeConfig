@@ -74,3 +74,18 @@ echo " Installation Complete!"
 echo "================================="
 echo "Restart your terminal or run:"
 echo "source ~/.bashrc"
+
+# -----------------------------
+# NEW: Wait 15 seconds then open terminals
+# -----------------------------
+echo "[+] Waiting 15 seconds before opening terminals..."
+sleep 15
+
+# Terminal command varies depending on your terminal emulator
+# Adjust "konsole" to "gnome-terminal", "alacritty", or "kitty" if needed
+
+# 1. Open an empty terminal
+konsole --new-tab &
+
+# 2. Open a terminal running mpv with ASCII video
+konsole --new-tab -e bash -c "mpv --vo=tct '$SCRIPT_DIR/wallpaper.mp4'; exec bash" &
