@@ -111,7 +111,8 @@ fi
 # Adjust "konsole" to "gnome-terminal", "alacritty", or "kitty" if needed
 
 # 1. Open an empty terminal
-konsole --geometry 80x24+1000+50 &
+konsole --new-window --geometry 80x24+1000+50 &
+
 # 2. Open a terminal running mpv with ASCII video
 mpv --no-config --vo=tct --really-quiet --loop "$SCRIPT_DIR/wallpaper.mp4"
 
