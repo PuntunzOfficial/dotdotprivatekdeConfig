@@ -11,7 +11,7 @@ echo "==============================="
 # -----------------------------
 echo "[+] Installing Git if missing..."
 sudo dnf install -y git
-
+sudo dnf install 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -24,8 +24,7 @@ FASTFETCH_CONFIG="$SCRIPT_DIR/config.jsonc"
 # -----------------------------
 echo "[+] Installing / Updating fastfetch..."
 sudo dnf install -y fastfetch
-sudo dnf install -y mpv
-
+sudo dnf install -y qt5-qttools
 # -----------------------------
 # Copy logo.png to Documents
 # -----------------------------
@@ -113,4 +112,4 @@ fi
 konsole --new-tab &
 
 # 2. Open a terminal running mpv with ASCII video
-mpv --no-config --vo=tct --really-quiet --loop --fullscreen "$SCRIPT_DIR/wallpaper.mp4" &
+mpv --no-config --loop --fs "$SCRIPT_DIR/wallpaper.mp4" &
