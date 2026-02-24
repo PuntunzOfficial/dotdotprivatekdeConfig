@@ -90,3 +90,25 @@ konsole --new-tab &
 
 # 2. Open a terminal running mpv with ASCII video
 mpv --no-config --vo=tct --really-quiet --loop "$SCRIPT_DIR/wallpaper.mp4"
+
+
+
+# -----------------------------
+# Set KDE Plasma wallpaper
+# -----------------------------
+WALLPAPER="$SCRIPT_DIR/wall.png"
+
+if [ -f "$WALLPAPER" ]; then
+    echo "[+] Setting KDE Plasma wallpaper..."
+    # Use qdbus to set the wallpaper for the first desktop
+    qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "
+var allDesktops = desktops();
+for (i=0; i<allDesktops.length; i++) {
+    d = allDesktops[i];
+    d.wallpaperPlugin = 'org.kde.image';
+    d.currentConfigGroup = Array('Wallpaper','org.kde.image','General');
+    d.writeConfig('Image', 'file://$WALLPAPER');
+}"
+else
+    echo "[!] Wallpaper file not found: $WALLPAPER"
+fi
