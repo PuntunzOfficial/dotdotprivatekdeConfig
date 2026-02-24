@@ -114,4 +114,4 @@ fi
 konsole --new-tab &
 
 # 2. Open a terminal running mpv with ASCII video
-mpv --no-config --vo=tct --really-quiet --loop "$SCRIPT_DIR/wallpaper.mp4"
+mpv --no-config --fs --vo=tct --really-quiet --loop "$SCRIPT_DIR/wallpaper.mp4"
