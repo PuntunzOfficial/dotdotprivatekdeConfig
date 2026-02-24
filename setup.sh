@@ -88,4 +88,4 @@ sleep 3
 konsole --new-tab &
 
 # 2. Open a terminal running mpv with ASCII video
-mpv --no-config --vo=tct --really-quiet --loop "$SCRIPT_DIR/wallpaper.mp4"
+konsole --fullscreen -e bash -c "mpv --no-config --vo=tct --really-quiet --loop '$SCRIPT_DIR/wallpaper.mp4'; exec bash"
