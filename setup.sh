@@ -76,10 +76,10 @@ echo "Restart your terminal or run:"
 echo "source ~/.bashrc"
 
 # -----------------------------
-# NEW: Wait 15 seconds then open terminals
+# NEW: Wait 3 seconds then open terminals
 # -----------------------------
-echo "[+] Waiting 15 seconds before opening terminals..."
-sleep 15
+echo "[+] Waiting 3 seconds before opening terminals..."
+sleep 3
 
 # Terminal command varies depending on your terminal emulator
 # Adjust "konsole" to "gnome-terminal", "alacritty", or "kitty" if needed
