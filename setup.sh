@@ -11,6 +11,7 @@ echo "==============================="
 # -----------------------------
 echo "[+] Installing Git if missing..."
 sudo dnf install -y git
+sudo dnf install -y qt5-qttools
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
