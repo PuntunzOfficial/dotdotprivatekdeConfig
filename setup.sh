@@ -11,7 +11,8 @@ echo "==============================="
 # -----------------------------
 echo "[+] Installing Git if missing..."
 sudo dnf install -y git
-sudo dnf install 
+sudo dnf install -y qt5-qttools
+
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -24,7 +25,8 @@ FASTFETCH_CONFIG="$SCRIPT_DIR/config.jsonc"
 # -----------------------------
 echo "[+] Installing / Updating fastfetch..."
 sudo dnf install -y fastfetch
-sudo dnf install -y qt5-qttools
+sudo dnf install -y mpv
+
 # -----------------------------
 # Copy logo.png to Documents
 # -----------------------------
