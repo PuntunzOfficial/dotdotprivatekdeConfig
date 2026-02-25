@@ -124,3 +124,35 @@ konsole --fullscreen -e bash -c "mpv --no-config --vo=tct --really-quiet --loop 
 
 # 2. Open a terminal running mpv with ASCII video no video just audio
 #mpv --no-config --vo=tct --really-quiet --loop "$SCRIPT_DIR/wallpaper.mp4" </dev/null >/dev/null 2>&1 &
+
+
+#sleep test 30 sec to set up napoli
+sleep 30
+
+konsole --hold --separate -e bash -c "mpv --no-config --vo=tct --really-quiet --loop '$SCRIPT_DIR/napolisong.mp4'; exec bash"
+
+
+WALLPAPER="$SCRIPT_DIR/napoli.png"
+if [ -f "$WALLPAPER" ]; then
+    # Find which qdbus binary exists
+    if command -v qdbus-qt5 >/dev/null 2>&1; then
+        QDBUS_CMD="qdbus-qt5"
+    elif command -v qdbus6 >/dev/null 2>&1; then
+        QDBUS_CMD="qdbus6"
+    else
+        echo "[!] No qdbus CLI tool found (qdbus-qt5 or qdbus6 required)"
+        exit 1
+    fi
+
+    echo "[+] Setting KDE Plasma wallpaper using $QDBUS_CMD"
+    "$QDBUS_CMD" org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "
+var allDesktops = desktops();
+for (i=0; i<allDesktops.length; i++) {
+    d = allDesktops[i];
+    d.wallpaperPlugin = 'org.kde.image';
+    d.currentConfigGroup = Array('Wallpaper','org.kde.image','General');
+    d.writeConfig('Image', 'file://$WALLPAPER');
+}"
+else
+    echo "[!] Wallpaper file not found: $WALLPAPER"
+fi
