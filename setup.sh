@@ -113,8 +113,13 @@ fi
 # 1. Open an empty terminal
 konsole --new-tab &
 
-konsole --hold --separate -e bash -c "mpv --no-config --vo=tct --really-quiet --loop '$SCRIPT_DIR/wallpaper.mp4'; exec bash"
+
+konsole --new-tab -e bash -c "mpv --vo=tct '$SCRIPT_DIR/yourvideo.mp4'; exec bash" &
+#this option is good, opens new window
+#konsole --hold --separate -e bash -c "mpv --no-config --vo=tct --really-quiet --loop '$SCRIPT_DIR/wallpaper.mp4'; exec bash"
+
+#normal same window
 #mpv --no-config --vo=tct --really-quiet --loop "$SCRIPT_DIR/wallpaper.mp4"
 
-# 2. Open a terminal running mpv with ASCII video
+# 2. Open a terminal running mpv with ASCII video no video just audio
 #mpv --no-config --vo=tct --really-quiet --loop "$SCRIPT_DIR/wallpaper.mp4" </dev/null >/dev/null 2>&1 &
