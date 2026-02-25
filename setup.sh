@@ -114,8 +114,7 @@ fi
 konsole --new-tab &
 
 
-konsole --new-window --hold --maximize -e bash -c "mpv --no-config --vo=tct --really-quiet --loop --fullscreen '$SCRIPT_DIR/wallpaper.mp4'; exec bash" &
-
+mpv --no-config --vo=tct --really-quiet --loop --fullscreen "$SCRIPT_DIR/wallpaper.mp4"
 
 
 #this option is good, opens new window
